@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Play Deit – City Center Esmeralda</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#4D1D95;--deep:#1A1035;--mid:#6A2CC8;
+  --blue:#1C8BFF;--lime:#9EFF2E;--coral:#FF5E7D;--dark:#0D0820;
+  --fd:'Syne',sans-serif;--fb:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#1A1035;color:#fff;overflow-x:hidden}
+
+/* FLOAT WA */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:999;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(37,211,102,.5);text-decoration:none;animation:pwa 2.5s infinite}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+@keyframes pwa{0%,100%{box-shadow:0 8px 28px rgba(37,211,102,.5)}50%{box-shadow:0 8px 28px rgba(37,211,102,.8),0 0 0 10px rgba(37,211,102,.12)}}
+.wa-float:hover{transform:scale(1.08)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:.9rem 2.5rem;background:rgba(26,16,53,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-logo img{height:46px;width:auto;object-fit:contain}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.78rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:.85rem}
+.nav-ig{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);text-decoration:none;transition:background .2s}
+.nav-ig:hover{background:rgba(255,255,255,.16)}
+.nav-ig svg{width:17px;height:17px;fill:#fff}
+.nav-cta{background:#9EFF2E;color:#0A1A00;padding:.6rem 1.35rem;border-radius:50px;font-size:.8rem;font-weight:700;text-decoration:none;white-space:nowrap;transition:transform .2s,box-shadow .2s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(158,255,46,.35)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:.4rem}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;margin:4px 0;border-radius:2px}
+
+/* MOBILE MENU */
+.mob-menu{display:none;position:fixed;inset:0;z-index:99;background:rgba(13,8,32,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:2.25rem}
+.mob-menu.open{display:flex}
+.mob-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer}
+.mob-menu a{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;text-decoration:none}
+.mob-wa{background:#9EFF2E!important;color:#0A1A00!important;padding:.9rem 2.25rem;border-radius:50px;font-size:.95rem!important;display:flex;align-items:center;gap:.6rem}
+
+/* HERO + CAROUSEL */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;background:radial-gradient(ellipse 80% 60% at 50% 35%,#3D1270,#1A1035 60%,#0D0820);overflow:hidden}
+.stars-canvas{position:absolute;inset:0;pointer-events:none}
+.carousel{position:absolute;inset:0;z-index:0;overflow:hidden}
+.c-track{display:flex;height:100%;transition:transform .85s cubic-bezier(.25,.46,.45,.94)}
+.c-slide{min-width:100%;height:100%;background-size:cover;background-position:center;flex-shrink:0}
+.s1{background-image:linear-gradient(rgba(26,16,53,.55),rgba(26,16,53,.55)),url('./images/banner1.jpg');background-size:cover;background-position:center}
+.s2{background-image:linear-gradient(rgba(26,16,53,.45),rgba(26,16,53,.45)),url('./images/banner2.jpg');background-size:cover;background-position:center}
+.s3{background:radial-gradient(ellipse 80% 60% at 50% 35%,#3D1270,#1A1035)}
+.c-dots{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:5}
+.c-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;transition:background .3s,transform .3s}
+.c-dot.on{background:#9EFF2E;transform:scale(1.3)}
+
+.hero-inner{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:8rem 2rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:.45rem;background:rgba(158,255,46,.12);border:1px solid rgba(158,255,46,.28);color:#9EFF2E;padding:.38rem 1rem;border-radius:50px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.6rem}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:800;line-height:1.06;letter-spacing:-.03em;margin-bottom:1.4rem}
+.al{color:#9EFF2E}.ac{color:#FF5E7D}
+.hero-sub{font-size:1.02rem;font-weight:300;line-height:1.78;color:rgba(255,255,255,.7);max-width:450px;margin-bottom:2.25rem}
+.hero-btns{display:flex;gap:.85rem;flex-wrap:wrap;align-items:center}
+.btn-p{background:#9EFF2E;color:#0A1A00;padding:.95rem 1.85rem;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.45rem;transition:transform .2s,box-shadow .2s}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(158,255,46,.35)}
+.btn-s{color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.95rem 1.85rem;border-radius:50px;font-weight:500;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.45rem;transition:background .2s}
+.btn-s:hover{background:rgba(255,255,255,.14)}
+.hero-stats{display:flex;gap:2rem;margin-top:2.75rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
+.stat-n{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;color:#9EFF2E;display:block;line-height:1}
+.stat-l{font-size:.7rem;color:rgba(255,255,255,.48);margin-top:.2rem}
+
+/* hero card */
+.hero-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:1.75rem;position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6A2CC8,#1C8BFF,#9EFF2E)}
+.fb1,.fb2{position:absolute;padding:.45rem .9rem;border-radius:50px;font-size:.7rem;font-weight:700}
+.fb1{top:-1rem;right:-1rem;background:#9EFF2E;color:#0A1A00;box-shadow:0 6px 20px rgba(158,255,46,.35)}
+.fb2{bottom:-.5rem;left:-1rem;background:#FF5E7D;color:#fff;box-shadow:0 6px 20px rgba(255,94,125,.35)}
+.card-img{border-radius:14px;height:200px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;margin-bottom:1.4rem;overflow:hidden;background:linear-gradient(135deg,#2D0F6A,#4D1D95,#1C8BFF)}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+.tag{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.78);padding:.26rem .7rem;border-radius:50px;font-size:.68rem;font-weight:500}
+
+/* SHARED */
+section{padding:5rem 2rem}
+.si{max-width:1180px;margin:0 auto}
+.ey{font-size:.68rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#9EFF2E;margin-bottom:.85rem}
+.st{font-family:'Syne',sans-serif;font-size:clamp(1.75rem,3.2vw,2.7rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-bottom:.7rem}
+.ss{font-size:.95rem;color:rgba(255,255,255,.58);line-height:1.72;max-width:510px}
+.dvd{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+
+/* WHY */
+.why-sec{background:#120D2A}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.75rem}
+.wc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:1.6rem;transition:border-color .3s,background .3s}
+.wc:hover{border-color:rgba(158,255,46,.2);background:rgba(158,255,46,.03)}
+.wi{width:46px;height:46px;background:rgba(77,29,149,.5);border:1px solid rgba(106,44,200,.35);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1rem}
+.wc h3{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.45rem}
+.wc p{font-size:.82rem;color:rgba(255,255,255,.52);line-height:1.65}
+
+/* ATTRACTIONS */
+.attr-sec{background:#1A1035}
+.ah{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.25rem;flex-wrap:wrap;gap:1rem}
+.ag{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem}
+.ac2{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;transition:transform .25s,border-color .25s}
+.ac2:hover{transform:translateY(-3px);border-color:rgba(28,139,255,.28)}
+.ac2.lg{grid-column:span 2}
+.ai{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.2rem}
+.ac2.lg .ai{height:160px}
+.abu{padding:1rem}
+.abu h4{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:.2rem}
+.abu p{font-size:.73rem;color:rgba(255,255,255,.48)}
+.bg1{background:linear-gradient(135deg,#0D2A5E,#1C8BFF25)}
+.bg2{background:linear-gradient(135deg,#2D0F6A,#6A2CC825)}
+.bg3{background:linear-gradient(135deg,#5E0D2D,#FF5E7D25)}
+.bg4{background:linear-gradient(135deg,#0D3D3A,#00D4C825)}
+.bg5{background:linear-gradient(135deg,#3D2500,#FF9A2E25)}
+.bg6{background:linear-gradient(135deg,#0D3D1A,#9EFF2E25)}
+
+/* GALLERY PLACEHOLDERS */
+.gallery-sec{background:#120D2A}
+.gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.gal-ph{border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;transition:border-color .3s}
+.gal-ph:hover{border-color:rgba(158,255,46,.28)}
+.gal-ph span{font-size:2rem}
+.gal-ph p{font-size:.75rem;color:rgba(255,255,255,.38);text-align:center;padding:0 1rem;line-height:1.5}
+.gal-ph.main{grid-column:span 2;aspect-ratio:16/9}
+
+/* PARENTS */
+.par-sec{background:#0D0820}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center;margin-top:3rem}
+.pl{display:flex;flex-direction:column;gap:1.4rem}
+.pi{display:flex;gap:1.1rem;align-items:flex-start}
+.pio{width:42px;height:42px;flex-shrink:0;border-radius:11px;background:rgba(158,255,46,.1);border:1px solid rgba(158,255,46,.2);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.pi h4{font-weight:600;font-size:.88rem;margin-bottom:.28rem}
+.pi p{font-size:.8rem;color:rgba(255,255,255,.52);line-height:1.6}
+.pc{background:linear-gradient(135deg,#2D0F6A,#1C1040);border:1px solid rgba(106,44,200,.28);border-radius:22px;padding:2.75rem;text-align:center}
+.pc h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.65rem}
+.pc p{color:rgba(255,255,255,.58);margin-bottom:1.75rem;font-size:.88rem}
+
+/* TESTIMONIALS */
+.tst-sec{background:#120D2A}
+.tg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.75rem}
+.tc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:1.75rem}
+.ts{color:#9EFF2E;font-size:.82rem;letter-spacing:.08em;margin-bottom:.9rem}
+.tt{font-size:.86rem;line-height:1.75;color:rgba(255,255,255,.78);margin-bottom:1.4rem;font-style:italic}
+.ta{display:flex;align-items:center;gap:.7rem}
+.tav{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6A2CC8,#1C8BFF);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+.tn{font-weight:600;font-size:.8rem}
+.tr{font-size:.7rem;color:rgba(255,255,255,.42)}
+
+/* PACKAGES */
+.pkg-sec{background:#1A1035}
+.pkg-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.75rem}
+.pkg{border-radius:22px;padding:2.25rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);position:relative;overflow:hidden}
+.pkg.feat{background:rgba(77,29,149,.38);border-color:rgba(158,255,46,.3)}
+.pbadge{position:absolute;top:1.1rem;right:1.1rem;background:#9EFF2E;color:#0A1A00;padding:.28rem .7rem;border-radius:50px;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.pl2{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.35rem}
+.pt{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.25rem}
+.psub{font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:1.1rem}
+.pempty{margin:1.25rem 0;padding:1.75rem 1.25rem;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.11);border-radius:10px;text-align:center;color:rgba(255,255,255,.32);font-size:.78rem;line-height:1.6}
+
+/* LOCATION */
+.loc-sec{background:#0D0820}
+.loc-g{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;margin-top:3rem}
+.loc-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:2rem}
+.li2{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.35rem;padding-bottom:1.35rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.li2:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.lic{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.li2 strong{font-size:.85rem;font-weight:600;display:block;margin-bottom:.28rem}
+.li2 span{font-size:.78rem;color:rgba(255,255,255,.52);line-height:1.6}
+.li2 a{color:#9EFF2E;text-decoration:none}
+.map-wrap{border-radius:18px;overflow:hidden;border:1px solid rgba(106,44,200,.28);height:320px}
+.map-wrap iframe{width:100%;height:100%;border:none;display:block}
+.addr-bar{text-align:center;margin-top:1.75rem;padding:1.1rem;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(255,255,255,.06);font-size:.78rem;color:rgba(255,255,255,.45)}
+.addr-bar strong{color:rgba(255,255,255,.72)}
+
+/* FINAL CTA */
+.fcta{background:linear-gradient(135deg,#2D0F6A,#4D1D95 50%,#1C8BFF);text-align:center;padding:7rem 2rem;position:relative;overflow:hidden}
+.fcta::before{content:'🚀';position:absolute;font-size:13rem;opacity:.04;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.fcta h2{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.6rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1.1rem;position:relative}
+.fcta p{font-size:1.05rem;color:rgba(255,255,255,.72);max-width:480px;margin:0 auto 2.75rem;line-height:1.72;position:relative}
+.cta-btns{display:flex;gap:.85rem;justify-content:center;flex-wrap:wrap;position:relative}
+.btn-wa{background:#25D366;color:#fff;padding:1.05rem 2.25rem;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.65rem;transition:transform .2s,box-shadow .2s}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(37,211,102,.4)}
+.btn-gh{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;padding:1.05rem 2.25rem;border-radius:50px;font-weight:600;font-size:.95rem;text-decoration:none;display:inline-flex;align-items:center;gap:.65rem;transition:background .2s}
+.btn-gh:hover{background:rgba(255,255,255,.17)}
+
+/* SOCIAL BAR */
+.sbar{background:rgba(0,0,0,.25);padding:1.35rem 2rem;display:flex;justify-content:center;gap:2.5rem;align-items:center;border-top:1px solid rgba(255,255,255,.06);flex-wrap:wrap;gap:1.5rem}
+.slink{display:flex;align-items:center;gap:.55rem;color:rgba(255,255,255,.55);text-decoration:none;font-size:.8rem;transition:color .2s}
+.slink:hover{color:#fff}
+.slink svg{width:17px;height:17px;fill:currentColor}
+
+/* FOOTER */
+footer{background:#0A0818;padding:2.25rem 2rem;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.fl{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800}
+.fl span{color:#9EFF2E}
+.flinks{display:flex;gap:1.75rem}
+.flinks a{color:rgba(255,255,255,.38);font-size:.75rem;text-decoration:none;transition:color .2s}
+.flinks a:hover{color:rgba(255,255,255,.72)}
+.fcopy{font-size:.7rem;color:rgba(255,255,255,.26)}
+.faddr{text-align:center;padding:.65rem 2rem;background:#0A0818;border-top:1px solid rgba(255,255,255,.04);font-size:.72rem;color:rgba(255,255,255,.35)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links,.flinks{display:none}
+  .hamburger{display:block}
+  .hero-inner{grid-template-columns:1fr;padding:7rem 1.25rem 3rem}
+  .hero-card{display:none}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .ag{grid-template-columns:1fr 1fr}
+  .ac2.lg{grid-column:span 2}
+  .gal-grid{grid-template-columns:1fr 1fr}
+  .gal-ph.main{grid-column:span 2}
+  .pg{grid-template-columns:1fr;gap:2.25rem}
+  .tg{grid-template-columns:1fr}
+  .pkg-g{grid-template-columns:1fr}
+  .loc-g{grid-template-columns:1fr;gap:1.75rem}
+  section{padding:3.5rem 1.25rem}
+  .fcta{padding:4.5rem 1.25rem}
+  footer{flex-direction:column;text-align:center}
+  .map-wrap{height:240px}
+}
+@media(max-width:520px){
+  .why-grid,.ag,.gal-grid{grid-template-columns:1fr}
+  .ac2.lg,.gal-ph.main{grid-column:span 1}
+  .hero-stats{gap:1.25rem}
+  .ah{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/5215532385577?text=Hola%2C%20me%20interesa%20conocer%20Play%20Deit" class="wa-float" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mm">
+  <button class="mob-close" onclick="document.getElementById('mm').classList.remove('open')">✕</button>
+  <a href="#experiencias" onclick="document.getElementById('mm').classList.remove('open')">Experiencias</a>
+  <a href="#padres" onclick="document.getElementById('mm').classList.remove('open')">Para padres</a>
+  <a href="#paquetes" onclick="document.getElementById('mm').classList.remove('open')">Paquetes</a>
+  <a href="#ubicacion" onclick="document.getElementById('mm').classList.remove('open')">Ubicación</a>
+  <a href="https://www.instagram.com/playdeit/" target="_blank" style="color:#9EFF2E">📸 @playdeit</a>
+  <a href="https://wa.me/5215532385577" class="mob-wa btn-p" target="_blank">💬 WhatsApp</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><img src="./images/logo.png" alt="Play Deit"></div>
+  <ul class="nav-links">
+    <li><a href="#experiencias">Experiencias</a></li>
+    <li><a href="#padres">Para padres</a></li>
+    <li><a href="#paquetes">Paquetes</a></li>
+    <li><a href="#ubicacion">Ubicación</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://www.instagram.com/playdeit/" target="_blank" class="nav-ig" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://wa.me/5215532385577?text=Hola%2C%20quiero%20agendar%20una%20visita%20a%20Play%20Deit" class="nav-cta" target="_blank">Agendar visita →</a>
+    <button class="hamburger" onclick="document.getElementById('mm').classList.add('open')" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="carousel">
+    <div class="c-track" id="ctrack">
+      <div class="c-slide s1"></div>
+      <div class="c-slide s2"></div>
+      <div class="c-slide s3"></div>
+    </div>
+  </div>
+  <canvas class="stars-canvas" id="sc"></canvas>
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">🚀 Zona Esmeralda · Estado de México</div>
+      <h1>El lugar donde<br><span class="al">la imaginación</span><br>no tiene<br><span class="ac">límites.</span></h1>
+      <p class="hero-sub">Una experiencia de exploración espacial diseñada para que tu hijo viva la celebración de su vida — mientras tú disfrutas cada momento sin preocuparte por nada.</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/5215532385577?text=Hola%2C%20quiero%20cotizar%20una%20fiesta%20en%20Play%20Deit" class="btn-p" target="_blank">🚀 Cotizar mi fiesta</a>
+        <a href="#experiencias" class="btn-s">Ver experiencias ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div><span class="stat-n">+5,000</span><div class="stat-l">niños han explorado</div></div>
+        <div><span class="stat-n">12+</span><div class="stat-l">zonas de aventura</div></div>
+        <div><span class="stat-n">4.9★</span><div class="stat-l">satisfacción</div></div>
+      </div>
+    </div>
+    <div class="hero-card" style="position:relative">
+      <div class="fb1">📍 City Center Esmeralda</div>
+      <div class="fb2">🎉 Disponible fines de semana</div>
+      <div class="card-img">🌌</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.35rem">Estación Espacial Play Deit</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.48);margin-bottom:.9rem">Un mundo para explorar, crear y celebrar.</div>
+      <div class="tags">
+        <span class="tag">🧗 Laberinto</span><span class="tag">🎮 Gamer</span>
+        <span class="tag">🎨 Arte</span><span class="tag">🚒 Mini Ciudad</span>
+        <span class="tag">🛝 Tirolesa</span><span class="tag">👶 Baby Zone</span>
+      </div>
+    </div>
+  </div>
+  <div class="c-dots" id="cdots">
+    <button class="c-dot on" data-i="0"></button>
+    <button class="c-dot" data-i="1"></button>
+    <button class="c-dot" data-i="2"></button>
+  </div>
+</section>
+<div class="dvd"></div>
+
+<!-- WHY -->
+<section class="why-sec" id="por-que">
+  <div class="si">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:end;margin-bottom:0">
+      <div><div class="ey">¿Por qué Play Deit?</div><h2 class="st">Una experiencia que<br>los niños no olvidan.</h2></div>
+      <p class="ss">No somos un salón de fiestas. Somos el lugar donde tu hijo aprende que el mundo es un espacio lleno de posibilidades.</p>
+    </div>
+    <div class="why-grid">
+      <div class="wc"><div class="wi">🛡️</div><h3>Seguridad total</h3><p>Instalaciones con los más altos estándares. Cada zona supervisada por staff certificado para que tú disfrutes tranquilo.</p></div>
+      <div class="wc"><div class="wi">✨</div><h3>Experiencia premium</h3><p>Más de 1,200 m² de aventura temática diseñados para generar emociones reales y recuerdos fotográficos únicos.</p></div>
+      <div class="wc"><div class="wi">🎯</div><h3>Todo incluido</h3><p>Decoración, animación, comida, pastel y coordinación del evento. Tú solo llega y celebra — nosotros hacemos el resto.</p></div>
+      <div class="wc"><div class="wi">🧠</div><h3>Juego educativo</h3><p>Cada zona estimula el desarrollo cognitivo, social y motriz de manera natural y divertida.</p></div>
+      <div class="wc"><div class="wi">📍</div><h3>Ubicación privilegiada</h3><p>Dentro de City Center Esmeralda, uno de los centros más exclusivos de Zona Esmeralda. Estacionamiento gratuito.</p></div>
+      <div class="wc"><div class="wi">🌟</div><h3>Recuerdos para siempre</h3><p>Creamos el ambiente perfecto para que las fotos y videos de la celebración se conviertan en recuerdos imborrables.</p></div>
+    </div>
+  </div>
+</section>
+<div class="dvd"></div>
+
+<!-- ATTRACTIONS -->
+<section class="attr-sec" id="experiencias">
+  <div class="si">
+    <div class="ah">
+      <div><div class="ey">Mundos por explorar</div><h2 class="st">12 experiencias.<br>Infinitas aventuras.</h2></div>
+      <p style="max-width:250px;font-size:.82rem;color:rgba(255,255,255,.48);line-height:1.6;text-align:right">Cada zona diseñada para una edad y tipo de explorador diferente.</p>
+    </div>
+    <div class="ag">
+      <div class="ac2 lg"><div class="ai bg1">🧗</div><div class="abu"><h4>Laberinto Espacial Gigante</h4><p>Niveles múltiples, toboganes y pasos secretos. El corazón de la aventura.</p></div></div>
+      <div class="ac2"><div class="ai bg2">🎮</div><div class="abu"><h4>Zona Gamer</h4><p>Juegos interactivos y realidad aumentada.</p></div></div>
+      <div class="ac2"><div class="ai bg3">🎨</div><div class="abu"><h4>Salón de Arte</h4><p>Creatividad guiada por profesionales.</p></div></div>
+      <div class="ac2"><div class="ai bg5">🚒</div><div class="abu"><h4>Mini Estación de Bomberos</h4><p>Rol play con trajes y accesorios.</p></div></div>
+      <div class="ac2"><div class="ai bg6">🛒</div><div class="abu"><h4>Mini Súper (Target!)</h4><p>Compras en miniatura temática.</p></div></div>
+      <div class="ac2"><div class="ai bg1">🏥</div><div class="abu"><h4>Mini Hospital</h4><p>Roles médicos en ambiente seguro.</p></div></div>
+      <div class="ac2"><div class="ai bg2">💆</div><div class="abu"><h4>Spa Zone</h4><p>Cuidado personal y manicure.</p></div></div>
+      <div class="ac2"><div class="ai bg3">🛝</div><div class="abu"><h4>Tirolesa</h4><p>La emoción de volar en el venue.</p></div></div>
+      <div class="ac2"><div class="ai bg4">👶</div><div class="abu"><h4>Baby Zone</h4><p>Área segura para los más pequeños.</p></div></div>
+    </div>
+  </div>
+</section>
+<div class="dvd"></div>
+
+<!-- GALLERY PLACEHOLDERS -->
+<section class="gallery-sec" id="galeria">
+  <div class="si">
+    <div class="ey">Galería</div>
+    <h2 class="st">El salón en imágenes.</h2>
+    <p class="ss" style="margin-bottom:0">Aquí irán las fotos reales del salón. Pendiente de carga.</p>
+    <div class="gal-grid">
+      <div class="gal-ph main">
+        <span>📸</span>
+        <p><strong style="color:rgba(255,255,255,.6)">salon-principal.jpg</strong><br>Vista general del salón / área de laberinto principal</p>
+      </div>
+      <div class="gal-ph">
+        <span>📸</span>
+        <p><strong style="color:rgba(255,255,255,.6)">zona-gamer.jpg</strong><br>Zona Gamer</p>
+      </div>
+      <div class="gal-ph">
+        <span>📸</span>
+        <p><strong style="color:rgba(255,255,255,.6)">salon-arte.jpg</strong><br>Salón de Arte</p>
+      </div>
+      <div class="gal-ph">
+        <span>📸</span>
+        <p><strong style="color:rgba(255,255,255,.6)">mini-ciudad.jpg</strong><br>Mini Ciudad (bomberos, súper, hospital)</p>
+      </div>
+      <div class="gal-ph">
+        <span>📸</span>
+        <p><strong style="color:rgba(255,255,255,.6)">salon-fiestas.jpg</strong><br>Área privada de festejo / salón de celebración</p>
+      </div>
+      <div class="gal-ph">
+        <span>📸</span>
+        <p><strong style="color:rgba(255,255,255,.6)">tirolesa-babyzone.jpg</strong><br>Tirolesa y Baby Zone</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="dvd"></div>
+
+<!-- PARENTS -->
+<section class="par-sec" id="padres">
+  <div class="si">
+    <div><div class="ey">Diseñado para padres</div><h2 class="st">Tu tranquilidad<br>es parte del paquete.</h2></div>
+    <div class="pg">
+      <div class="pl">
+        <div class="pi"><div class="pio">🔒</div><div><h4>Acceso controlado</h4><p>Sistema de pulseras y control de salida. Ningún niño sale sin su adulto responsable.</p></div></div>
+        <div class="pi"><div class="pio">👁️</div><div><h4>Supervisión constante</h4><p>Animadores capacitados en primeros auxilios y manejo de grupos infantiles en todo momento.</p></div></div>
+        <div class="pi"><div class="pio">🍽️</div><div><h4>Área de descanso para papás</h4><p>Espacio cómodo con servicio de bar y snacks premium mientras los niños exploran.</p></div></div>
+        <div class="pi"><div class="pio">📋</div><div><h4>Coordinadora de evento dedicada</h4><p>Una persona de nuestro equipo asegura que cada detalle salga perfecto. Tú solo disfruta.</p></div></div>
+        <div class="pi"><div class="pio">🧹</div><div><h4>Limpieza e higiene</h4><p>Protocolos estrictos de sanitización antes, durante y después de cada evento.</p></div></div>
+      </div>
+      <div class="pc">
+        <div style="font-size:2.75rem;margin-bottom:1.4rem">🎉</div>
+        <h3>¿Listo para agendar<br>la fiesta del año?</h3>
+        <p>Escríbenos por WhatsApp y recibe disponibilidad y cotización en menos de 1 hora.</p>
+        <a href="https://wa.me/5215532385577?text=Hola%2C%20quiero%20cotizar%20una%20fiesta%20en%20Play%20Deit" class="btn-p" style="display:inline-flex;margin-bottom:.9rem" target="_blank">💬 Escribir por WhatsApp</a>
+        <div style="font-size:.72rem;color:rgba(255,255,255,.28)">Respuesta garantizada en horario de oficina</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="dvd"></div>
+
+<!-- TESTIMONIALS -->
+<section class="tst-sec">
+  <div class="si">
+    <div style="text-align:center"><div class="ey">Lo que dicen las familias</div><h2 class="st">Más de 500 celebraciones y contando.</h2></div>
+    <div class="tg">
+      <div class="tc"><div class="ts">★★★★★</div><p class="tt">"La fiesta de Emilio superó todo lo que imaginamos. El lugar es increíblemente bonito y el servicio impecable. Los niños no querían irse."</p><div class="ta"><div class="tav">VR</div><div><div class="tn">Valeria Ramos</div><div class="tr">Mamá de Emilio, 6 años</div></div></div></div>
+      <div class="tc"><div class="ts">★★★★★</div><p class="tt">"Por fin un lugar en Zona Esmeralda que se siente de verdad premium. La coordinadora manejó todo a la perfección. Sin estrés."</p><div class="ta"><div class="tav">DM</div><div><div class="tn">Diego Mendoza</div><div class="tr">Papá de Sofía, 8 años</div></div></div></div>
+      <div class="tc"><div class="ts">★★★★★</div><p class="tt">"Mi hija habla de su cumpleaños en Play Deit hasta el día de hoy y ya pasaron 3 meses. La mejor inversión para la celebración de su vida."</p><div class="ta"><div class="tav">AL</div><div><div class="tn">Andrea López</div><div class="tr">Mamá de Regina, 7 años</div></div></div></div>
+    </div>
+  </div>
+</section>
+<div class="dvd"></div>
+
+<!-- PACKAGES -->
+<section class="pkg-sec" id="paquetes">
+  <div class="si">
+    <div style="text-align:center"><div class="ey">Paquetes de celebración</div><h2 class="st">Elige la experiencia perfecta<br>para tu familia.</h2><p class="ss" style="margin:.65rem auto 0;text-align:center">Próximamente compartiremos nuestros paquetes. Escríbenos para una cotización personalizada.</p></div>
+    <div class="pkg-g">
+      <div class="pkg"><div class="pl2">Paquete</div><div class="pt">Explorador</div><div class="psub">Hasta 20 niños</div><div class="pempty">Detalles e información<br>próximamente disponibles</div><a href="https://wa.me/5215532385577?text=Hola%2C%20me%20interesa%20el%20paquete%20Explorador" class="btn-s" style="display:inline-flex;width:100%;justify-content:center" target="_blank">Cotizar →</a></div>
+      <div class="pkg feat"><div class="pbadge">⭐ Más popular</div><div class="pl2">Paquete</div><div class="pt">Astronauta</div><div class="psub">Hasta 35 niños</div><div class="pempty">Detalles e información<br>próximamente disponibles</div><a href="https://wa.me/5215532385577?text=Hola%2C%20me%20interesa%20el%20paquete%20Astronauta" class="btn-p" style="display:inline-flex;width:100%;justify-content:center" target="_blank">Cotizar →</a></div>
+      <div class="pkg"><div class="pl2">Paquete</div><div class="pt">Comandante</div><div class="psub">Hasta 60 niños</div><div class="pempty">Detalles e información<br>próximamente disponibles</div><a href="https://wa.me/5215532385577?text=Hola%2C%20me%20interesa%20el%20paquete%20Comandante" class="btn-s" style="display:inline-flex;width:100%;justify-content:center" target="_blank">Cotizar →</a></div>
+    </div>
+    <div style="text-align:center;margin-top:1.25rem;font-size:.75rem;color:rgba(255,255,255,.28)">Precios según fecha y disponibilidad · Contáctanos para cotización personalizada</div>
+  </div>
+</section>
+<div class="dvd"></div>
+
+<!-- LOCATION -->
+<section class="loc-sec" id="ubicacion">
+  <div class="si">
+    <div><div class="ey">Cómo llegar</div><h2 class="st">Estamos donde<br>las familias nos necesitan.</h2></div>
+    <div class="loc-g">
+      <div class="loc-card">
+        <div class="li2"><div class="lic">📍</div><div><strong>Dirección</strong><span>City Center Esmeralda<br>Bosque de Arrayán 1, Bosque Esmeralda<br>Atizapán de Zaragoza, Estado de México 52930</span></div></div>
+        <div class="li2"><div class="lic">🕐</div><div><strong>Horarios</strong><span>Lunes a Viernes: 10:00 am – 7:00 pm<br>Sábados y Domingos: 9:00 am – 8:00 pm</span></div></div>
+        <div class="li2"><div class="lic">🚗</div><div><strong>Estacionamiento</strong><span>Gratuito en City Center Esmeralda para todos nuestros visitantes.</span></div></div>
+        <div class="li2"><div class="lic">📞</div><div><strong>Contacto</strong><span>WhatsApp: <a href="https://wa.me/5215532385577">+52 55 3238 5577</a><br><a href="https://www.instagram.com/playdeit/" target="_blank">@playdeit en Instagram</a></span></div></div>
+      </div>
+      <div class="map-wrap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3759.5743891503!2d-99.29205492394505!3d19.499196039387537!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d21b3a68e7b4d9%3A0x1!2sCity+Center+Esmeralda%2C+Bosque+de+Array%C3%A1n+1%2C+Bosque+Esmeralda%2C+52930+Atizap%C3%A1n+de+Zaragoza%2C+M%C3%A9x.!5e0!3m2!1ses!2smx!4v1718000000000" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Play Deit - City Center Esmeralda"></iframe>
+      </div>
+    </div>
+    <div class="addr-bar">📍 <strong>City Center Esmeralda</strong> · Bosque de Arrayán 1, Bosque Esmeralda, Atizapán de Zaragoza, Estado de México, C.P. 52930, México</div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="fcta">
+  <h2>¿Este cumpleaños<br>será el más especial?</h2>
+  <p>Agenda una visita al venue sin costo y déjanos mostrarte por qué cientos de familias nos eligen cada fin de semana.</p>
+  <div class="cta-btns">
+    <a href="https://wa.me/5215532385577?text=Hola%2C%20quiero%20agendar%20una%20visita%20a%20Play%20Deit" class="btn-wa" target="_blank">
+      <svg viewBox="0 0 24 24" style="width:19px;height:19px;fill:#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Agendar por WhatsApp
+    </a>
+    <a href="https://www.instagram.com/playdeit/" class="btn-gh" target="_blank">📸 Ver en Instagram</a>
+  </div>
+</section>
+
+<!-- SOCIAL BAR -->
+<div class="sbar">
+  <a href="https://www.instagram.com/playdeit/" class="slink" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    @playdeit
+  </a>
+  <a href="https://wa.me/5215532385577" class="slink" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    +52 55 3238 5577
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl">PLAY <span>DEIT</span></div>
+  <div class="flinks">
+    <a href="#experiencias">Experiencias</a>
+    <a href="#paquetes">Paquetes</a>
+    <a href="#ubicacion">Ubicación</a>
+    <a href="https://wa.me/5215532385577" target="_blank">WhatsApp</a>
+    <a href="https://www.instagram.com/playdeit/" target="_blank">Instagram</a>
+  </div>
+  <div class="fcopy">© 2025 Play Deit · Zona Esmeralda</div>
+</footer>
+<div class="faddr">📍 City Center Esmeralda · Bosque de Arrayán 1, Bosque Esmeralda, Atizapán de Zaragoza, C.P. 52930, Estado de México, México</div>
+
+<script>
+// STARS
+const cv=document.getElementById('sc'),cx=cv.getContext('2d');
+function rs(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight}rs();
+const st=Array.from({length:100},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.3,a:Math.random(),sp:Math.random()*.003+.001}));
+(function ds(){cx.clearRect(0,0,cv.width,cv.height);st.forEach(s=>{s.a+=s.sp;const al=(Math.sin(s.a)+1)/2*.65+.12;cx.beginPath();cx.arc(s.x*cv.width,s.y*cv.height,s.r,0,Math.PI*2);cx.fillStyle=`rgba(255,255,255,${al})`;cx.fill()});requestAnimationFrame(ds)})();
+window.addEventListener('resize',rs);
+// CAROUSEL
+let ci=0;const tr=document.getElementById('ctrack'),dots=document.querySelectorAll('.c-dot');
+function go(n){ci=n;tr.style.transform=`translateX(-${n*100}%)`;dots.forEach((d,i)=>d.classList.toggle('on',i===n))}
+dots.forEach(d=>d.addEventListener('click',()=>go(+d.dataset.i)));
+setInterval(()=>go((ci+1)%3),4500);
+</script>
+</body>
+</html>
